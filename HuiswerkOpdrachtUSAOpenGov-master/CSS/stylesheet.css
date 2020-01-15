@@ -1,0 +1,26 @@
+table a {
+    color: white;
+}
+table a:hover {
+    color: yellow;
+}
+thead {
+    background-color: lightgray;
+    cursor: pointer;
+}
+
+.tab-content {
+    background-color: lightgray;
+    
+}
+ul {
+    justify-content: center;
+   
+}
+table {
+    text-align: center;
+    
+}
+.alignLeft {
+    text-align: left;
+}

@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--- script for vue.js-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!--- script for axios.js-------->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!---- below the link to my style sheet-->
+    <link rel="stylesheet" href="../CSS/stylesheet.css" type="text/css">
+</head>
+
+<body>
+    <div id="app">
+        <!---------start nav bar-------------------------------------->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <img src="" alt="logo USA Open Government"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="" id="">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Congress 116</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="./congress_116_Senate.html">Senate</a>
+                            <a class="dropdown-item" href="#">House<span class="sr-only">(current)</span></a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Attendance</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="./attendance_senate.html">Senate</a>
+                            <a class="dropdown-item" href="./attendance_house.html">House</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Party Loyalty</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="./party_loyalty_senate.html">Senate</a>
+                            <a class="dropdown-item" href="./partly_loyalty_house.html">House</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!---- end of nav bar------------------------>
+        <div class="container h-100 py-2 ">
+            <h1>Congressmen</h1>
+            <p>The major power of the House is to pass federal legislation that affects the entire country, although its
+                bills must also be passed by the Senate and further agreed to by the U.S. President before becoming law
+                (unless both the House and Senate re-pass the legislation witha two-thirds majority in each chamber).
+            </p>
+            <p>The House has some exclusive powers: the power to initiate revenue bills, to impeach officials (impeached
+                officials are subsequently tried in the Senate), and to elect the U.S. President in case there is no
+                majority in the Electoral College. Each U.S. state is represented in the House in proportion to its
+                population as measured in the census, but every state is entitled to at least one representative.</p>
+                <br />
+
+        <!---- search function Search-as-you-type-->
+
+        <ul class="nav nav-tabs border-0 " id="myTab" role="tablist">
+            <li>
+                <input style='height: 40px; width: 300px; background-color: lightgrey; border: 1px darkgrey solid ' class="form-control" type="text" v-model="searchQuery" placeholder="Search for Senator" />
+            </li>
+            <li class="nav-item">
+                <a class="nav-link border border-primary bg-primary text-white border-bottom-0" id="Democrats-tab" data-toggle="tab"
+                    href="#Democrats" role="tab" aria-controls="Democrats" aria-selected="true">Democrats</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link border border-danger bg-danger text-white border-bottom-0" id="Republicans-tab" data-toggle="tab"
+                    href="#Republicans" role="tab" aria-controls="Republicans" aria-selected="false">Republicans</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link border border-success bg-success text-white border-bottom-0" id="Independants-tab" data-toggle="tab"
+                    href="#Independants" role="tab" aria-controls="Independants"
+                    aria-selected="false">Independants</a>
+            </li>
+            <li>
+                <select style='height: 40px; width: 300px; background-color: lightgrey;' v-model='state'>
+                    <option  value=''> All States</option>
+                    <option value='AL'>Alabama</option>
+                    <option value='AK'>Alaska</option>
+                    <option value='AZ'>Arizona</option>
+                    <option value='AR'>Arkansas</option>
+                    <option value='CA'>California</option>
+                    <option value='CO'>Colorado</option>
+                    <option value='CT'>Connecticut</option>
+                    <option value='DE'>Delaware</option>
+                    <option value='DC'>District Of Columbia</option>
+                    <option value='FL'>Florida</option>
+                    <option value='GA'>Georgia</option>
+                    <option value='HI'>Hawaii</option>
+                    <option value='ID'>Idaho</option>
+                    <option value='IL'>Illinois</option>
+                    <option value='IN'>Indiana</option>
+                    <option value='IA'>Iowa</option>
+                    <option value='KS'>Kansas</option>
+                    <option value='KY'>Kentucky</option>
+                    <option value='LA'>Louisiana</option>
+                    <option value='ME'>Maine</option>
+                    <option value='MD'>Maryland</option>
+                    <option value='MA'>Massachusetts</option>
+                    <option value='MN'>Minnesota</option>
+                    <option value='MI'>Michigan</option>
+                    <option value='MS'>Mississippi</option>
+                    <option value='MO'>Missouri</option>
+                    <option value='MT'>Montana</option>
+                    <option value='NE'>Nebraska</option>
+                    <option value='NV'>Nevada</option>
+                    <option value='NH'>New Hampshire</option>
+                    <option value='NJ'>New Jersey</option>
+                    <option value='NM'>New Mexico</option>
+                    <option value='NY'>New York</option>
+                    <option value='NC'>North Carolina</option>
+                    <option value='ND'>North Dakota</option>
+                    <option value='OH'>Ohio</option>
+                    <option value='OK'>Oklahoma</option>
+                    <option value='OR'>Oregon</option>
+                    <option value='PA'>Pennsylvania</option>
+                    <option value='RI'>Rhode Island</option>
+                    <option value='SC'>South Carolina</option>
+                    <option value='SD'>South Dakota</option>
+                    <option value='TN'>Tennessee</option>
+                    <option value='TX'>Texas</option>
+                    <option value='UT'>Utah</option>
+                    <option value='VT'>Vermont</option>
+                    <option value='VA'>Virginia</option>
+                    <option value='WA'>Washington</option>
+                    <option value='WV'>West Virginia</option>
+                    <option value='WI'>Wisconsin</option>
+                    <option value='WY'>Wyoming</option>
+                    <option value='AS'>American Samoa</option>
+                    <option value='GU'>Guam</option>
+                    <option value='MP'>Northern Mariana Islands</option>
+                    <option value='PR'>Puerto Rico</option>
+                    <option value='UM'>United States Minor Outlying Islands</option>
+                    <option value='VI'>Virgin Islands</option>
+                </select>
+            </li>
+        </ul>
+        <div class="tab-content h-75">
+            <div class="tab-pane h-100 p-3 active border border-primary" id="Democrats" role="tabpanel"
+                aria-labelledby="Democrats-tab">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th @click="sort('last_name')">Name of Senator</th>
+                            <th @click="sort('state')">State</th>
+                            <th @click="sort('seniority')">Seniority</th>
+                            <th @click="sort('total_votes')">Party Votes</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-primary text-white "
+                        v-for="member in sortedMembers" v-if='member.party === "D"'>
+                        <tr>
+                            <td class="alignLeft"><a v-bind:href="member.url">{{ member.first_name }} {{ member.last_name }}</a></td>
+                            <td>{{ member.state }}</td>
+                            <td>{{ member.seniority }}</td>
+                            <td>{{ member.total_votes }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane h-100 p-3 border border-danger" id="Republicans" role="tabpanel"
+                aria-labelledby="Republicans-tab">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th @click="sort('last_name')">Name of Senator</th>
+                            <th @click="sort('state')">State</th @click="sort('')">
+                            <th @click="sort('seniority')">Seniority</th>
+                            <th @click="sort('total_votes')">Party Votes</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-danger  text-white" v-for="member in sortedMembers"
+                        v-if='member.party === "R"'>
+                        <tr>
+                            <td class="alignLeft"><a v-bind:href="member.url">{{ member.first_name }} {{ member.last_name }}</a></td>
+                            <td>{{ member.state }}</td>
+                            <td>{{ member.seniority }}</td>
+                            <td>{{ member.total_votes }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane h-100 p-3 border border-success" id="Independants" role="tabpanel"
+                aria-labelledby="Independants-tab">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th @click="sort('last_name')">Name of Senator</th>
+                            <th @click="sort('state')">State</th @click="sort('')">
+                            <th @click="sort('seniority')">Seniority</th>
+                            <th @click="sort('total_votes')">Party Votes</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-success text-white" v-for="member in sortedMembers"
+                        v-if='member.party === "I"'>
+                        <tr>
+                            <td class="alignLeft"><a v-bind:href="member.url">{{ member.first_name }} {{ member.last_name }}</a></td>
+                            <td>{{member.state }}</td>
+                            <td>{{ member.seniority }}</td>
+                            <td>{{ member.total_votes }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+        <!------- below closing div with id="app-->
+    </div>
+    <!-- Optional JavaScript --------------------------------------------------------------------------->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+    </script>
+    <!--- script for vue.js---------------------------------------------------------------------->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!----link to external .js file------------------------------------------------------------->
+    <script src="../JS/houseApp.js"></script>
+</body>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!--- script for vue.js-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <!--- script for axios.js-------->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!---- below the link to my style sheet-->
+    <link rel="stylesheet" href="../CSS/stylesheet.css" type="text/css">
+</head>
+
+<body>
+    <div id="app">
+        <!---------start nav bar----------------------------------------------------->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <img src="" alt="logo USA Open Government"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="" id="">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="../index.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Congress 116</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="./congress_116_Senate.html">Senate</a>
+                            <a class="dropdown-item" href="./congress_116_House.html">House</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Attendance</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="./attendance_senate.html">Senate</a>
+                            <a class="dropdown-item" href="./attendance_house.html">House</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">Party Loyalty</a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="./party_loyalty_senate.html">Senate</a>
+                            <a class="dropdown-item" href="#">House<span class="sr-only">(current)</span></a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- end of nav bar-->
+        <div class="container h-100 py-2 ">
+            <h1>House - Party Loyalty</h1>
+            <p>Those who consider themselves to be strong partisans, strong Democrats and strong Republicans respectively, tend to be the most faithful in voting for their party's nominee for office and legislation that backs their party's agenda.</p>
+        </div>
+         <!--- 1- TABLE WITH NUMBER OF REPRESENTATIVES PER PARTY AND VOTED WITH PARTY-->
+         <div class="container h-100 py-2 ">
+            <div class='row'>
+                <div class='col'>
+                    <table class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th class="border border-primary bg-primary text-white border-bottom-0">Democrats</th>
+                                <th class=" border border-danger bg-danger text-white border-bottom-0">Republicans</th>
+                                <th class="border border-success bg-success text-white border-bottom-0">Independents
+                                </th>
+                                <th>Total / Mean</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-secondary text-white ">
+                            <tr>
+                                <td>Number of Representatives</td>
+                                <td>{{ democrats.length }} </td>
+                                <td>{{ republicans.length }} </td>
+                                <td>{{ independents.length }}</td>
+                                <td> {{democrats.length + republicans.length + independents.length }}</td>
+
+                            </tr>
+                            <tr>
+                                <td>Percentage voted with Party</td>
+                                <td><!-- how to do the calculations in js file? -->{{ Math.floor(votedWithPartyD / democrats.length) }}%</td>
+                                <td>{{ Math.floor(votedWithPartyR / republicans.length) }}%</td>
+                                <td>{{ Math.floor(votedWithPartyI / independents.length) }}%</td>
+                                <td>{{ Math.floor((votedWithPartyD + votedWithPartyR + votedWithPartyI)/(democrats.length + republicans.length + independents.length)) }}%  </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {{ sortedInfoH }}
+            <!--- 2- TABLE with Losers-->
+            <div class="row">
+                <div class="col">
+                    <h3>Representatives with Least Party Loyalty</h3>
+                    <table class="table table-hover ">
+                        <thead>
+
+                            <tr>
+                                <th @click="sort('last_name')">Name of Senator</th>
+                                <!-- sorts on wrong property-->
+                                <th @click="sort('total_votes')">Number of Party Votes</th>
+                                <th @click="sort('votes_with_party_pct')">Percentage Party Votes</th>
+                                <th>Party</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-secondary text-white">
+                            <tr v-for="member in sortedLosers">
+                                <td class="alignLeft"><a v-bind:href="member.url">{{ member.first_name }}
+                                        {{ member.last_name }}</a></td>
+                                <td>{{ Math.floor(member.total_votes * member.votes_with_party_pct * .01) }}</td>
+                                <td>{{ Math.floor(member.votes_with_party_pct) }}%</td>
+                                <td>{{member.party}}</td>
+
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+                <!--- Tabel 3 reps with most party loyalty-->
+                 <div class="col">
+                    <h3>Representatives with Most Party Loyalty</h3>
+                    <table class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th @click="sort('last_name')">Name of Senator</th>
+                                <th @click="sort('total_votes')">Number of Party Votes</th>
+                                <th @click="sort('votes_with_party_pct')">Percentage Party Votes</th>
+                                <th>Party</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-secondary text-white">
+                            <tr v-for="member in sortedLosers">
+                               <!-- <td class="alignLeft"><a v-bind:href="member.url">{{ member.first_name }}
+                                        {{ member.last_name }}</a></td>
+                                <td>{{ Math.floor(member.total_votes * member.votes_with_party_pct * .01) }}</td> 
+                                <td>{{ Math.floor(member.votes_with_party_pct) }}%</td>
+                                <td>{{member.party}}</td>-->
+
+                            </tr> 
+                        </tbody>
+
+                    </table> 
+                </div>
+           
+
+
+       
+        <!------- below closing div with id="app-->
+    </div>
+    <!-- Drie tabellen:
+        1.House at a glancePer partij van het Huis en in totaal het aantal representatives en het % voted with Party
+        2.Least Loyal (Bottom 10% of Party)*10% van alle House representatives die het laagste percentage party votes ten op zichte van total votes hebben. Geef de namen, het aantal party votes en het percentage weer. Sorteren op elk van de drie kolommen moet mogelijk zijn. Namen moeten moeten wederom clickable zijn.
+        3.Most Loyal (Top 10% of Party)*Idem, maar nu met hoogste percentage party votes.* ranking based on % -->
+
+    <!-- Optional JavaScript --------------------------------------------------------------------------->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+    </script>
+    
+    <!----link to external .js file------------------------------------------------------------->
+    <script src="../JS/houseLoyaltyApp.js"></script>
+</body>
